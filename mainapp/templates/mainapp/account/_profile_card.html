@@ -1,0 +1,17 @@
+<div class="card profile-card">
+    <div class="row no-gutters">
+        <div class="col-md-4 details">
+            <div class="card-body">
+                <h3 class="full-name">{{ account.first_name }} {{ account.last_name }}</h3>
+                <p><em>City: {{ account.city }}</em></p>
+                <p><em>Email: {{ account.user.email }}</em></p>
+                <p><em>Date of Birth: {{ account.date_of_birth }}</em></p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body bio">
+                <p>{{ account.bio }}</p>
+            </div>
+        </div>
+    </div>
+</div>

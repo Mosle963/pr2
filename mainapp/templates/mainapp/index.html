@@ -1,34 +1,67 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load crispy_forms_tags %}
-{% block title %}Home page{% endblock %}
+{% block h2 %}Welcome to News Share{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/pagenation.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+{% endblock style %}
+
 {% block content %}
-    
-    <div class="card">
+<div class="container mt-4">
+    <div class="card mt-4">
         <div class="card-header">
             <p></p>
         </div>
         <div class="card-body ">
-        <h1 class="card-title">SHARE YOUR NEWS!!</h1>
-        <p class="card-text post-create-msg">Help others know what's going on and share your original news</p>
-        <a href="{%url 'create_post' %}" class="btn btn-primary">Create post</a>
+            <h1 class="card-title">SHARE YOUR NEWS!!</h1>
+            <p class="card-text post-create-msg">Help others know what's going on and share your original news</p>
+            <a href="{%url 'create_post' %}" class="btn btn-primary">Create post</a>
         </div>
         <div class="card-footer text-body-secondary">
             <p></p>
         </div>
     </div>
+    
+    <!-- Nav Bar -->
+    <ul class="nav nav-tabs mt-4">
+        <li class="nav-item">
+            <a class="nav-link {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">All Posts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.GET.nav == 'verified' %}active{% endif %}" href="?nav=verified">Verified Posts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.GET.nav == 'disproven' %}active{% endif %}" href="?nav=disproven">Disproven Posts</a>
+        </li>
+    </ul>
 
-    {% for post in posts%}
-        {% include 'mainapp/post/_post_card.html' with post=post %}
-    {% endfor %}
+    <!-- Posts Section -->
+    <div id="posts-container" class="mt-4">
+        {% include 'mainapp/post/_posts_section.html' %}
+    </div>
+</div>
 {% endblock %}
-
-
 {% block script %}
-    <script src="{% static 'mainapp/js/post_card.js' %}"></script>
-{% endblock %}
-{% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<script src="{% static 'mainapp/js/post_card.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('.nav-link').click(function(e){
+            e.preventDefault();
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                success: function(data) {
+                    $('#posts-container').html(data);
+                    show_less_more();
+
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
