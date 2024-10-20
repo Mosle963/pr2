@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block h2 %}Account Details{% endblock %}
+
+{% block style %}
+<style>
+    .profile-card {
+        background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+    .profile-card .details {
+        border-right: 2px solid #6c757d;
+    }
+    .profile-card .details p {
+        color: #5a5a5a; /* Darker font color */
+    }
+    .profile-card .bio {
+        font-family: 'Georgia', serif; /* Cool font for bio */
+        font-size: 1.1rem;
+    }
+    .profile-card .full-name {
+        font-size: 2rem; /* Bigger font for full name */
+        margin-bottom: 1rem; /* Space below full name */
+    }
+    .pagination .page-item .page-link {
+        color: #007bff; /* Bootstrap primary color */
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d; /* Bootstrap secondary color */
+    }
+    .pagination .page-item .page-link:hover {
+        background-color: #f8f9fa; /* Light background on hover */
+    }
+    .pagination .page-item .page-link span {
+        font-weight: bold; /* Bold arrows */
+    }
+
+
+    .sticky-pagination {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000;
+    }
+    .sticky-pagination.left {
+        left: 10px;
+    }
+    .sticky-pagination.right {
+        right: 10px;
+    }
+    .sticky-pagination .page-link {
+        background-color: transparent;
+        color: #007bff; /* Bootstrap primary color */
+        font-size: 4rem; /* Make them bigger */
+        border: none; /* Remove border */
+    }
+    .sticky-pagination .page-link:hover {
+        background-color: #e9ecef; /* Light background on hover */
+        color: #0056b3; /* Darker blue on hover */
+    }
+    
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card.css' %}">
+{% endblock style %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card profile-card">
+        <div class="row no-gutters">
+            <div class="col-md-4 details">
+                <div class="card-body">
+                    <h3 class="full-name">{{ account.first_name }} {{ account.last_name }}</h3>
+                    <p><em>City: {{ account.city }}</em></p>
+                    <p><em>Email: {{ account.user.email }}</em></p>
+                    <p><em>Date of Birth: {{ account.date_of_birth }}</em></p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body bio">
+                    <p>{{ account.bio }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav Bar -->
+    <ul class="nav nav-tabs mt-4">
+        <li class="nav-item">
+            <a class="nav-link {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">Posts</a>
+        </li>
+        {% if user.is_trusted %}
+        <li class="nav-item">
+            <a class="nav-link {% if request.GET.nav == 'approved' %}active{% endif %}" href="?nav=approved">Approved Posts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.GET.nav == 'disapproved' %}active{% endif %}" href="?nav=disapproved">Disapproved Posts</a>
+        </li>
+        {% endif %}
+    </ul>
+
+    <!-- Posts Section -->
+    <div id="posts-container" class="mt-4">
+        {% include 'mainapp/post/_posts_section.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'mainapp/js/post_card.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('.nav-link').click(function(e){
+            e.preventDefault();
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                success: function(data) {
+                    $('#posts-container').html(data);
+                    show_less_more();
+
+                }
+            });
+        });
+    });
+
+  
+</script>
+{% endblock %}

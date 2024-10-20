@@ -1,0 +1,94 @@
+.post-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    display: box; /* Add the standard property */
+    box-orient: vertical; /* Add the standard property */
+    line-clamp: 5; /* Add the standard property */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.post-body {
+    transition: all 0.3s ease-in-out;
+    padding: 40px;
+    font-family: 'Lato', sans-serif;
+    border-radius: 8px;
+    font-size: 1.4em; /* Slightly larger font */
+    line-height: 1.8; /* Increased line height for readability */
+    color: #333; /* Dark grey text */
+}
+
+.see-more, .see-less {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.see-more i, .see-less i {
+    margin-left: 5px;
+}
+
+.see-more:hover, .see-less:hover {
+    text-decoration: underline;
+}
+
+.post-full {
+    display: none;
+}
+
+
+
+.card-author {
+    font-style: italic;
+    font-size: 1.3em;
+    color: #555; /* Subtle grey color */
+}
+
+.post-author {
+    font-weight: bold;
+    color: #0066cc; /* Nice blue color for the link */
+    text-decoration: none; /* Remove underline */
+}
+
+.post-author:hover {
+    color: #004d99; /* Darken the color on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.status{
+    float: right;
+}
+
+
+.post-create-msg{
+    padding: 40px;
+    font-family: 'Lato', sans-serif;
+    border-radius: 8px;
+    font-size: 1.4em; /* Slightly larger font */
+    line-height: 1.8; /* Increased line height for readability */
+    color: #333; /* Dark grey text */
+}
+#checker-link {
+    color: inherit; /* Inherit color from parent element */
+    text-decoration: none; /* Remove underline */
+}
+
+#checker-link:hover {
+    color: #333; /* Change color on hover */
+    text-decoration: underline; /* Optional: add underline on hover */
+}
+.card-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; /* Ensures spacing between elements */
+    align-items: center;
+
+}
+.card-title{
+    margin: 0;
+}
+.post-date {
+    font-size: 0.95rem; /* Smaller font size for date */
+    color: #656262; /* Subtle grey color */
+}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{%block h2%}h2 block{%endblock%}</h2>
+    {% crispy form %}
+</div>
+<script>
+    // Check if the URL ends with "1"
+if (window.location.href.endsWith('1')) {
+    // Get all elements with the class "form-control"
+    var elements = document.getElementsByClassName('form-control');
+    
+    // Loop through the elements and change their background color
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.backgroundColor = '#E7FBE6';
+    }
+
+    // Create a new message element
+    var message = document.createElement('div');
+    message.innerText = 'Information is up to date';
+    message.style.backgroundColor = '#E7FBE6'; // Lighter green
+    message.style.padding = '10px';
+    message.style.marginTop = '10px';
+    message.style.textAlign='center';
+    message.style.border = '1px solid #b3e6b3';
+    message.style.borderRadius = '5px';
+
+    // Append the message to the body or a specific container
+    document.querySelector('.container').appendChild(message);
+}
+
+    </script>
+{% endblock %}
+

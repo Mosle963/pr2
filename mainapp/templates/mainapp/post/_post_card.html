@@ -1,0 +1,88 @@
+
+
+<input hidden value="{{csrf_token}}" id="csrf_token"/>
+<input hidden value="{% url 'delete_post' 0 %}" id="delete_url"/>
+<input hidden value="{% url 'update_status' 0 %}" id="update_url"/>
+
+<div class="card mt-5" id="post-card-{{post.post_id}}">
+    
+    <!--card header contaain the author and relative creation time-->
+    <div class="card-header card-author">
+        <div>
+            <span class="card-title ">shared by 
+                <a href="{{ post.account.get_absolute_url }}" class="post-author">
+                    {{ post.account.first_name }} {{ post.account.last_name }}
+                </a>
+            </span>
+        </div>
+        <div>
+            <span class="post-date">{{ post.get_relative_time }}</span>
+        </div>
+    </div>    
+    <!--card body contains the text and its show functions-->
+    <p class="card-text post-body">
+        <span class="post-summary">{{ post.post_text|linebreaksbr }}</span>
+        <span class="post-full" style="display: none;">{{ post.post_text|linebreaksbr }}</span>
+        <br><a href="javascript:void(0);" class="see-more">Show more.. </i></a>
+        <a href="javascript:void(0);" class="see-less" style="display: none;">Show less <i class="bi bi-chevron-up"></i></a>
+    </p>
+    
+    <!--card footer show the buttons to 
+            (approve/diapprove/retrive revision) 
+            and (edit/delete) 
+        show the status of the post 
+    -->
+    <div class="card-footer text-body-secondary">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if user.is_trusted  %}
+                {% if not post.checker or post.checker == user.account %}
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button type="button" class="btn  btn-light" 
+                            onclick="change_status('approve','{{user.id}}','{{post.post_id}}')"
+                            title="Verfiey this post">
+                                <i class="bi bi-shield-fill-check" style="font-size: 2.0rem;"></i>
+                        </button>
+                        
+                        <button type="button" class="btn  btn-light" 
+                            onclick="change_status('reset','{{user.id}}','{{post.post_id}}')"
+                            title="Remove your verdict">
+                                <i class="bi bi-shield-shaded"  style="font-size: 2.0rem;"></i>
+                        </button>
+                        
+                        <button type="button" class="btn  btn-light" 
+                            onclick="change_status('disapprove','{{user.id}}','{{post.post_id}}')"
+                            title="Dis-Approve this post">
+                                <i class="bi bi-shield-fill-x " style="font-size: 2.0rem;"></i>
+                        </button>
+                    </div>
+                {%endif%}
+            {%endif%}       
+            {% if post.account.user == user or user.is_staff%}    
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    <a href="{% url 'post_update' post.post_id 0%}"  
+                        class="btn  btn-light"
+                        title="Edit this Post">
+                            <i class="bi bi-pencil-fill" style="font-size: 2.0rem;"></i>
+                    </a>
+                    
+                    <button type="button" 
+                        class="btn  btn-light" 
+                        onclick="deletePost('{{ post.post_id|escapejs }}')"
+                        title="Delete this post">
+                            <i class="bi bi-trash3-fill" style="font-size: 2.0rem;"></i>
+                    </button>
+                </div>
+            {%endif%}
+        </div>
+        
+        <div class="status card-author" id="post-statue-{{post.post_id}}">
+                <p id="post-status" style="font-style: italic; color: #444;">
+                    Truth-O-meter: <span style="font-weight: bold; color: #333;">{{ post.status }}</span>
+                    {% if post.checker %}
+                        <span style="color: #888;"> by <a id="checker-link" href="{{post.checker.get_absolute_url}}">{{ post.checker }}</a></span>
+                    {% endif %}
+                </p>
+        </div>
+    </div>
+</div>
+
