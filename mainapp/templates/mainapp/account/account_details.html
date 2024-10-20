@@ -10,6 +10,8 @@
 {% endblock style %}
 
 {% block content %}
+<input id="has_next" hidden value="{{has_next}}"></input>
+
 <div class="container mt-4">
     
     {% include 'mainapp/account/_profile_card.html' %}
@@ -38,20 +40,48 @@
 {% block script %}
 <script src="{% static 'mainapp/js/post_card.js' %}"></script>
 <script>
-    $(document).ready(function(){
-        $('.nav-link').click(function(e){
+   
+$(document).ready(function(){
+    let page = 1;
+    let loading = false;
+
+    function loadContent(url) {
+        if (loading){ console.log("returned"); return;}
+        loading = true;
+
+        $.ajax({
+            url: url,
+            success: function(data) {
+                $('#posts-container').append(data.content);
+                show_less_more();
+                $('#has_next').val(data.has_next)
+                loading = false ;               
+            },
+            error: function() {
+                loading = false;
+            }
+        });
+    }
+
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
+            if($('#has_next').val()=='false'){console.log("no more posts");return;}
+            else{console.log("loading extra posts")}
+            page++;
+            var url = '?page=' + page + '&nav=' + $('.nav-link.active').attr('href').split('=')[1];
+            loadContent(url);
+        }
+    });
+
+    $('.nav-link').click(function(e){
             e.preventDefault();
             $('.nav-link').removeClass('active');
             $(this).addClass('active');
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                success: function(data) {
-                    $('#posts-container').html(data);
-                    show_less_more();
-
-                }
-            });
+            $('#posts-container').empty(); 
+            page = 1; // Reset page counter
+            var url = $(this).attr('href') + '&page=' + page;
+            loading=false;
+            loadContent(url);
         });
     });
 </script>

@@ -1,6 +1,3 @@
-{% extends 'mainapp/post/_pagination.html'%}
-{%block posts-to-pages%}
-    {% for post in page_obj %}
-        {% include 'mainapp/post/_post_card.html' with post=post %}
-    {% endfor %}
-{%endblock%}
+{% for post in page_obj %}
+    {% include 'mainapp/post/_post_card.html' with post=post %}
+{% endfor %}

@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from ..models import Post
 from ..forms.home import CustomLoginForm
 from ..forms.post import PostCreateForm
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 class SignUpView(UserPassesTestMixin, TemplateView):
     template_name = 'registration/signup.html'
@@ -40,15 +42,20 @@ def index(request):
         post_list = Post.objects.all()
     
     paginator = Paginator(post_list, 10)  # Show 10 posts per page
-    page_number = request.GET.get('page')
+    page_number = request.GET.get('page',1)
     page_obj = paginator.get_page(page_number)
     
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         context = {'page_obj': page_obj}
-        return render(request, 'mainapp/post/_posts_section.html', context)
+        html_content = render_to_string('mainapp/post/_posts_section.html', context, request=request)
+        return JsonResponse({
+            'content': html_content,
+            'has_next': page_obj.has_next(),
+        })
     
     context = {
         'page_obj': page_obj,
+        'has_next': page_obj.has_next(),
     }
     return render(request, 'mainapp/index.html', context)
 
