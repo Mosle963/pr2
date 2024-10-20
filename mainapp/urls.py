@@ -23,7 +23,7 @@ urlpatterns += [
     path('update-status/<int:post_id>/', post.update_status, name='update_status'),
     path('delete-post/<int:post_id>/', post.delete_post, name='delete_post'),
     path('edit-post/<int:pk>/<int:changed>', post.PostUpdateView.as_view(), name='post_update'),
-    path('create-post', post.PostCreateView.as_view(), name='create_post')
+    path('create-post/', post.create_post, name='create_post')
     
 
 ]

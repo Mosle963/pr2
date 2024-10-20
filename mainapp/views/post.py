@@ -15,6 +15,20 @@ from ..forms.post import PostUpdateForm, PostCreateForm
 import json
 from ..tasks import start_thread
 import requests
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        if content:
+            post = Post.objects.create(account=request.user.account, post_text=content)
+            start_thread(post.post_id, request.user.id)
+            return JsonResponse({'success': True, 'post_id': post.post_id})
+        return JsonResponse({'success': False, 'error': 'seems like you forgot to add your news..'})
+    return JsonResponse({'success': False, 'error': 'UnknownError, please try again in a few moments'})
 
 def update_status(request, post_id):
     if request.method == "POST":
@@ -65,18 +79,4 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         start_thread(self.object.post_id, self.request.user.id)
         return response
 
-class PostCreateView(LoginRequiredMixin , CreateView):
-    """View to create a Post"""
 
-    model = Post
-    form_class = PostCreateForm
-    template_name = "mainapp/post/post_create.html"
-
-    def form_valid(self, form):
-        form.instance.account = Account.objects.get(user=self.request.user)
-        response = super().form_valid(form)
-        start_thread(self.object.post_id, self.request.user.id)
-        return response
-
-    def get_success_url(self):
-        return reverse('index')

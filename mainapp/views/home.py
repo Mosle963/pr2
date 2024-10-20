@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from ..models import Post
 from ..forms.home import CustomLoginForm
+from ..forms.post import PostCreateForm
 
 class SignUpView(UserPassesTestMixin, TemplateView):
     template_name = 'registration/signup.html'
