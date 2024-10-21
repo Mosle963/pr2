@@ -95,13 +95,28 @@ class Account(models.Model):
                 fields.append(info)
         return fields
 
+from enum import Enum
+
+class Status(Enum):
+    P = "Processing.."
+    V = "Verified"
+    DP = "Disproven"
+    DF = "Definitely False"
+    PF = "Probably False"
+    NS = "Not Sure"
+    PT = "Probably True"
+    DT = "Definitely True"
 
 class Post(models.Model):
     post_id = models.BigAutoField("Post id",primary_key=True)
     account = models.ForeignKey(Account, on_delete=models.CASCADE,related_name="account")
     post_text = models.TextField("Post Text", max_length=5000)
-    true_prob = models.FloatField("Prop",default = -1)    
-    status = models.CharField(max_length=1000,default="Processing..")
+    true_prob = models.FloatField("Prop",default = -1)
+    status = models.CharField(
+        max_length=50,
+        choices=[(status.name, status.value) for status in Status],
+        default=Status.P.value
+    )
     checker = models.ForeignKey(Account,null=True, blank=True,on_delete=models.SET_NULL,related_name="checker")
     created_at = models.DateTimeField("Created at", auto_now_add = True)
     updated_at = models.DateTimeField("Updated at", auto_now = True)
@@ -128,13 +143,13 @@ class Post(models.Model):
     def approve(self,checker_id):
         user = get_object_or_404(CustomUser, id=checker_id)
         self.checker = user.account
-        self.status = "Verfied"
+        self.status = Status.V.value
         self.save()
 
     def disapprove(self,checker_id):
         user = get_object_or_404(CustomUser, id=checker_id)
         self.checker = user.account
-        self.status = "Disproven"
+        self.status = Status.DP.value
         self.save()
 
     def reset(self):
@@ -148,17 +163,17 @@ class Post(models.Model):
         P = int(P)
         
         if 0 <= P <= 20:
-            self.status = "Definitely False"
+            self.status = Status.DF.value
         elif 21 <= P <= 40:
-            self.status = "Probably False"
+            self.status = Status.PF.value
         elif 41 <= P <= 60:
-            self.status = "Not Sure"
+            self.status = Status.NS.value
         elif 61 <= P <= 80:
-            self.status = "Probably True"
+            self.status = Status.PT.value
         elif 81 <= P <= 100:
-            self.status = "Definitely True"
+            self.status = Status.DT.value
         else:
-            self.status = "Processing.."
+            self.status = Status.P.value
         
         self.save()
     

@@ -35,9 +35,9 @@ def index(request):
     nav = request.GET.get('nav', 'posts')
     
     if nav == 'verified':
-        post_list = Post.objects.filter(status="Verfied")
+        post_list = Post.objects.filter(status=Status.V.value)
     elif nav == 'disproven':
-        post_list = Post.objects.filter(status="Disproven")
+        post_list = Post.objects.filter(status=Status.DP.value)
     else:
         post_list = Post.objects.all()
     

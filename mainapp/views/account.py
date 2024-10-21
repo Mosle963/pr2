@@ -2,7 +2,7 @@ from ..forms.account import AccountSignUpForm, AccountUpdateForm
 from django.shortcuts import redirect, reverse,render
 from django.views.generic import CreateView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from ..models import CustomUser, Account,Post
+from ..models import CustomUser, Account,Post,Status
 from django.contrib.auth import login
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
@@ -13,9 +13,9 @@ def profile_view(request, pk):
     nav = request.GET.get('nav', 'posts')
     
     if nav == 'verified':
-        post_list = Post.objects.filter(checker=account, status="Verfied")
+        post_list = Post.objects.filter(checker=account, status=Status.V.value)
     elif nav == 'disproven':
-        post_list = Post.objects.filter(checker=account, status="Disproven")
+        post_list = Post.objects.filter(checker=account, status=Status.DP.value)
     else:
         post_list = Post.objects.filter(account=account)
     
