@@ -14,7 +14,12 @@ class PostBaseForm(forms.ModelForm):
     post_text = forms.CharField(
         label="",
         max_length=1000,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 10})    
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
+        error_messages={
+            'required': 'Please enter your news before posting.',
+            'max_length': 'Your news is too long! Please keep it under 1000 characters.'
+        }
+
         )
     
     class Meta:

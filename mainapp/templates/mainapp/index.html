@@ -15,14 +15,26 @@
     <!-- Inline Post Creation Form -->
     <div class="card shadow-lg bg-light border-0">
         <div class="card-body p-4">
-            <form id="postForm" method="post" action="{% url 'index' %}">
+            {% if user.is_authenticated %}
+            <form id="postForm" method="post" action="{% url 'index' %} ">
                 {% csrf_token %}
                 <div class="form-group mb-3">
-                    <textarea class="form-control" id="post-content" name="content" rows="4" 
+                    <textarea class="form-control" id="post-content" name="post_text" rows="4" maxlength="1000"
                     placeholder="What's happening ?" style="resize: none; border-radius: 10px; padding: 10px;"></textarea>
                 </div>
                 <button type="submit" class="btn btn-lg btn-block btn-primary">Post</button>
             </form>
+            {% else %}
+            <form id="postForm" method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <textarea  disabled class="form-control" id="post-content" name="post_text" rows="4" maxlength="1000"
+                    placeholder="Please Sign-in to post" style="resize: none; border-radius: 10px; padding: 10px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-lg btn-block btn-primary" disabled>Post</button>
+            </form>
+            {% endif %}
+                
         </div>
     </div>
     
@@ -94,29 +106,42 @@ $(document).ready(function(){
         }, 2000);
     }
     
-    $('#postForm').submit(function(e){
-        e.preventDefault();  // Prevent the default form submission
-        $.ajax({
-            type: 'POST',
-            url: '{% url "create_post" %}',  
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.success) {
-                    // Handle success response (e.g., refresh posts list, show success message)
-                    $('#all_posts_nav').click()
-                    showFlashMessage("Post created successfully!","success")
-                    $('#postForm')[0].reset();  // Reset the form after successful submission
-                } else {
-                    // Handle error response (e.g., show error message)
-                    showFlashMessage(response.error,"danger")
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error creating post: ", error);
-                showFlashMessage("UnknownError, please try again in a few moments","danger")
+    $('#postForm').submit(function(e) {
+    e.preventDefault();  // Prevent the default form submission
+
+    // Display loading state
+    var submitButton = $(this).find('button[type="submit"]');
+    var originalButtonText = submitButton.text();
+    submitButton.text('Posting...').prop('disabled', true);
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "create_post" %}',
+        data: $(this).serialize(),
+        success: function(response) {
+            console.log("Full response: ", response); 
+            if (response.success) {
+                // Handle success response (e.g., refresh posts list, show success message)
+                $('#all_posts_nav').click();
+                showFlashMessage("Post created successfully!", "success");
+                $('#postForm')[0].reset();  // Reset the form after successful submission
+            } else {
+                // Inspect the error object and handle errors
+                var errorMsg = response.errors?.post_text?.[0]?.message ?? "Unknown error occurred"; // Optional chaining to safely access the nested properties
+                showFlashMessage(errorMsg, "danger");
             }
-        });
+            // Reset button state
+            submitButton.text(originalButtonText).prop('disabled', false);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error creating post: ", error);
+            showFlashMessage("UnknownError, please try again in a few moments", "danger");
+            // Reset button state
+            submitButton.text(originalButtonText).prop('disabled', false);
+        }
     });
+    });
+
 });
 
 </script>

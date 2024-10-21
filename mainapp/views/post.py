@@ -22,13 +22,18 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def create_post(request):
     if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:
-            post = Post.objects.create(account=request.user.account, post_text=content)
+        form = PostCreateForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.account = request.user.account
+            post.save()
             start_thread(post.post_id, request.user.id)
             return JsonResponse({'success': True, 'post_id': post.post_id})
-        return JsonResponse({'success': False, 'error': 'seems like you forgot to add your news..'})
-    return JsonResponse({'success': False, 'error': 'UnknownError, please try again in a few moments'})
+        else:
+            # Collect form errors
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': json.loads(errors)})
+    return JsonResponse({'success': False, 'error': 'Invalid request method. Please try again later.'})
 
 def update_status(request, post_id):
     if request.method == "POST":

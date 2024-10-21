@@ -59,8 +59,8 @@ body {
     font-family: 'Montserrat', sans-serif;
     border-radius: 8px;
     color: #333; /* Dark grey text */
-    font-size: 1.3rem;
-    line-height: 1.4rem;
+    font-size: 1.1rem;
+    line-height: 1.3rem;
 }
 
 .see-more, .see-less {
@@ -95,3 +95,5 @@ body {
     color: #333; /* Change color on hover */
     text-decoration: underline; /* Optional: add underline on hover */
 }
+
+

@@ -28,8 +28,17 @@
                     <button type="button" class="btn btn-outline-success btn-sm" onclick="change_status('approve','{{user.id}}','{{post.post_id}}')" title="Verify this post"><i class="bi bi-check-circle"></i></button>
                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="change_status('reset','{{user.id}}','{{post.post_id}}')" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="change_status('disapprove','{{user.id}}','{{post.post_id}}')" title="Disapprove this post"><i class="bi bi-x-circle"></i></button>
+                {%else%}
+                    <button disabled type="button" class="btn btn-outline-success btn-sm invisible"  title="Verify this post"><i class="bi bi-check-circle"></i></button>
+                    <button disabled type="button" class="btn btn-outline-secondary btn-sm invisible"  title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button disabled type="button" class="btn btn-outline-danger btn-sm invisible"  title="Disapprove this post"><i class="bi bi-x-circle"></i></button>
                 {% endif %}
+            {%else%}
+                <button disabled type="button" class="btn btn-outline-success btn-sm invisible"  title="Verify this post"><i class="bi bi-check-circle"></i></button>
+                <button disabled type="button" class="btn btn-outline-secondary btn-sm invisible"  title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm invisible"  title="Disapprove this post"><i class="bi bi-x-circle"></i></button>
             {% endif %}
+
         </div>
         <div id="poststatue{{post.post_id}}" class="status text-muted small text-center mx-auto">
             Truth-O-meter: <strong class="text-dark">{{ post.status }}</strong>
@@ -41,6 +50,9 @@
             {% if post.account.user == user or user.is_staff %}
                 <a href="{% url 'post_update' post.post_id 0 %}" class="btn btn-outline-primary btn-sm" title="Edit this post"><i class="bi bi-pencil"></i></a>
                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="deletePost('{{ post.post_id|escapejs }}')" title="Delete this post"><i class="bi bi-trash"></i></button>
+            {% else %}
+                <a disabled href="" class="btn btn-outline-primary btn-sm invisible" title="Edit this post"><i class="bi bi-pencil"></i></a>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm invisible" title="Delete this post"><i class="bi bi-trash"></i></button>
             {% endif %}
         </div>
     </div>
