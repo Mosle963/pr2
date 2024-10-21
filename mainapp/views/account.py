@@ -81,13 +81,12 @@ class AccountUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            'account_update',
-            kwargs={
-                'pk': self.object.pk,
-                'changed': 1
-            }
-        )
-
+        'account_detail',
+        kwargs={
+            'pk': self.object.user.id 
+        }
+    )
+       
     def test_func(self):
         return self.get_object().user.id == self.request.user.id
 

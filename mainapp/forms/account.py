@@ -2,10 +2,11 @@ from django import forms
 from django.db import transaction
 from ..models import Account, CustomUser
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit,HTML
 from .home import CustomUserCreationForm
 from django.core.exceptions import ValidationError
 from datetime import date
+from django.urls import reverse
 
  
 class AccountBaseForm(forms.ModelForm):
@@ -159,6 +160,8 @@ class AccountUpdateForm(AccountBaseForm):
     def __init__(self, *args, **kwargs):
         super(AccountUpdateForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+
+        cancel_url = reverse('account_detail', kwargs={'pk': self.instance.pk})
         self.helper.layout = Layout(
             Fieldset(
                 "Personal Information",
@@ -169,5 +172,8 @@ class AccountUpdateForm(AccountBaseForm):
                 "city",
                 "bio",
             ),
-            ButtonHolder(Submit("submit", "Save", css_class="btn-primary")),
+             ButtonHolder(
+                Submit("submit", "Save", css_class="btn-primary btn-lg"),
+                HTML(f'<a class="btn btn-secondary btn-lg" href="{cancel_url}">Cancel</a>')
+            ),
         )

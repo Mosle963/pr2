@@ -78,8 +78,10 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            "post_update", kwargs={"pk": self.object.post_id, "changed": 1}
-        )
+        'account_detail',
+        kwargs={
+            'pk': self.object.account_id 
+        })
 
     def test_func(self):
         return self.get_object().account.user.id == self.request.user.id

@@ -4,8 +4,8 @@
 {% block title %} log in {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Log in</h2>
+<div class="container mt-5 p-5 shadow-lg bg-light">
+    <h3 class="mb-5">Sign in</h3>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

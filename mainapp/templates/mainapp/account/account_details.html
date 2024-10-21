@@ -19,7 +19,25 @@
     {% include 'mainapp/account/_profile_card.html' %}
     
     <!-- Side Panel -->
-    {% include 'mainapp/post/_posts_side_panel.html' %}
+    <div class="side-panel">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a id="all_posts_nav" class="nav-link sub-bar {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">
+                    {{account.first_name}} Posts <i class="bi bi-newspaper float-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sub-bar {% if request.GET.nav == 'verified' %}active{% endif %}" href="?nav=verified">
+                    Verified by {{account.first_name}}<i class="bi bi-check-circle float-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sub-bar {% if request.GET.nav == 'disproven' %}active{% endif %}" href="?nav=disproven">
+                    Disproven by {{account.first_name}}<i class="bi bi-x-circle float-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
     
     <!-- Posts Section -->
     <div id="posts-container" class="mt-4">

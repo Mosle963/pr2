@@ -1,8 +1,14 @@
 <div class="card profile-card">
     <div class="row no-gutters">
-        <div class="col-md-4 details">
+        <div class="col-md-4 details position-relative">
             <div class="card-body">
-                <h3 class="full-name">{{ account.first_name }} {{ account.last_name }}</h3>
+                <h3 class="full-name">{{ account.first_name }} {{ account.last_name }}
+                    {% if account.user.is_trusted %}
+                    <i class="bi bi-check-circle text-success"></i> <!-- Trusted icon -->
+                    {% endif %}
+
+
+                </h3>
                 <p><em>City: {{ account.city }}</em></p>
                 <p><em>Email: {{ account.user.email }}</em></p>
                 <p><em>Date of Birth: {{ account.date_of_birth }}</em></p>
@@ -14,4 +20,9 @@
             </div>
         </div>
     </div>
+    {% if user.is_authenticated and user.id == account.user.id %}
+    <a href="{% url 'account_update' user.id 0%}" class="position-absolute" style="bottom: 10px; right: 10px;">
+        <i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
+    </a>
+    {% endif %}
 </div>
