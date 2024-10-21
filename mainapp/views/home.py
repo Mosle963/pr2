@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
-from ..models import Post
+from ..models import Post,Status
 from ..forms.home import CustomLoginForm
 from ..forms.post import PostCreateForm
 from django.template.loader import render_to_string

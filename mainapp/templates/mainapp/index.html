@@ -10,6 +10,9 @@
 {% endblock style %}
 
 {% block content %}
+
+<input value="false" hidden id="loading"></input> 
+<input value="2" hidden id="page"></input> 
 <div class="container mt-4 ">
     <!-- Inline Post Creation Form -->
     <div class="card shadow-lg bg-light border-0">
@@ -47,52 +50,14 @@
         {% include 'mainapp/post/_posts_section.html' %}
     </div>
 </div>
+
 {% endblock %}
 {% block script %}
 <script src="{% static 'mainapp/js/post_card.js' %}"></script>
+<script src="{% static 'mainapp/js/load_on_scroll.js' %}"></script>
 <script>
 
-$(document).ready(function(){
-    let page = 1;
-    let loading = false;
-
-    function loadContent(url) {
-        if (loading){ console.log("returned"); return;}
-        loading = true;
-
-        $.ajax({
-            url: url,
-            success: function(data) {
-                $('#posts-container').append(data.content);
-                show_less_more();
-                loading = false ;               
-            },
-            error: function() {
-                loading = false;
-            }
-        });
-    }
-
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-            page++;
-            var url = '?page=' + page + '&nav=' + $('.sub-bar.active').attr('href').split('=')[1];
-            loadContent(url);
-        }
-    });
-
-    $('.sub-bar').click(function(e){
-            e.preventDefault();
-            $('.sub-bar').removeClass('active');
-            $(this).addClass('active');
-            $('#posts-container').empty(); 
-            page = 1; // Reset page counter
-            var url = $(this).attr('href') + '&page=' + page;
-            loading=false;
-            loadContent(url);
-        });
-
-    function showFlashMessage(message, type) {
+function showFlashMessage(message, type) {
         var alertDiv = $('<div class="alert alert-' + type + '" role="alert">' + message + '</div>');
         $('#postForm').prepend(alertDiv);
         setTimeout(function() {
@@ -101,7 +66,7 @@ $(document).ready(function(){
             });
         }, 2000);
     }
-    
+    $(document).ready(function(){
     $('#postForm').submit(function(e) {
     e.preventDefault();  // Prevent the default form submission
 
@@ -138,8 +103,9 @@ $(document).ready(function(){
     });
     });
 
-});
+    })
+
+
 
 </script>
-
 {% endblock %}
