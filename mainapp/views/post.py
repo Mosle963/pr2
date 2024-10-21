@@ -36,16 +36,26 @@ def update_status(request, post_id):
         new_status = data.get('new_status')
         checker_id = data.get('checker_id')
         post = get_object_or_404(Post, post_id=post_id)
-        if(new_status=='approve'):
+
+        if new_status == 'approve':
             post.approve(checker_id)
-        elif(new_status=='disapprove'):
+        elif new_status == 'disapprove':
             post.disapprove(checker_id)
         else:
             post.reset()
 
-        return JsonResponse({'success': True})   
-    return JsonResponse({'success': False})
+        # Fetch updated checker and status info
+        checker_url = post.checker.get_absolute_url() if post.checker else ''
+        checker_name = str(post.checker) if post.checker else ''
+        new_status = post.status
+        return JsonResponse({
+            'success': True,
+            'new_status': new_status,
+            'checker_url': checker_url,
+            'checker_name': checker_name
+        })
 
+    return JsonResponse({'success': False})
 
 def delete_post(request, post_id):
     if request.method == 'POST':

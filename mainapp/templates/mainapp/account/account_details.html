@@ -4,9 +4,10 @@
 {% block h2 %}Account Details{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/pagenation.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/profile_card.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
@@ -14,22 +15,12 @@
 
 <div class="container mt-4">
     
+    <!--Profile Card-->
     {% include 'mainapp/account/_profile_card.html' %}
-    <!-- Nav Bar -->
-    <ul class="nav nav-tabs mt-4">
-        <li class="nav-item">
-            <a class="nav-link {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">Posts</a>
-        </li>
-        {% if user.is_trusted %}
-        <li class="nav-item">
-            <a class="nav-link {% if request.GET.nav == 'approved' %}active{% endif %}" href="?nav=approved">Approved Posts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if request.GET.nav == 'disapproved' %}active{% endif %}" href="?nav=disapproved">Disapproved Posts</a>
-        </li>
-        {% endif %}
-    </ul>
-
+    
+    <!-- Side Panel -->
+    {% include 'mainapp/post/_posts_side_panel.html' %}
+    
     <!-- Posts Section -->
     <div id="posts-container" class="mt-4">
         {% include 'mainapp/post/_posts_section.html' %}
@@ -68,14 +59,14 @@ $(document).ready(function(){
             if($('#has_next').val()=='false'){console.log("no more posts");return;}
             else{console.log("loading extra posts")}
             page++;
-            var url = '?page=' + page + '&nav=' + $('.nav-link.active').attr('href').split('=')[1];
+            var url = '?page=' + page + '&nav=' + $('.sub-bar.active').attr('href').split('=')[1];
             loadContent(url);
         }
     });
 
-    $('.nav-link').click(function(e){
+    $('.sub-bar').click(function(e){
             e.preventDefault();
-            $('.nav-link').removeClass('active');
+            $('.sub-bar').removeClass('active');
             $(this).addClass('active');
             $('#posts-container').empty(); 
             page = 1; // Reset page counter

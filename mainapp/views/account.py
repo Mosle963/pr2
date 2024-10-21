@@ -12,9 +12,9 @@ def profile_view(request, pk):
     account = Account.objects.get(user_id=pk)
     nav = request.GET.get('nav', 'posts')
     
-    if nav == 'approved':
+    if nav == 'verified':
         post_list = Post.objects.filter(checker=account, status="Verfied")
-    elif nav == 'disapproved':
+    elif nav == 'disproven':
         post_list = Post.objects.filter(checker=account, status="Disproven")
     else:
         post_list = Post.objects.filter(account=account)

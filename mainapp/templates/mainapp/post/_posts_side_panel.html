@@ -1,0 +1,19 @@
+<div class="side-panel">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a id="all_posts_nav" class="nav-link sub-bar {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">
+                All Posts <i class="bi bi-newspaper float-right"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link sub-bar {% if request.GET.nav == 'verified' %}active{% endif %}" href="?nav=verified">
+                Verified Posts <i class="bi bi-check-circle float-right"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link sub-bar {% if request.GET.nav == 'disproven' %}active{% endif %}" href="?nav=disproven">
+                Disproven Posts <i class="bi bi-x-circle float-right"></i>
+            </a>
+        </li>
+    </ul>
+</div>

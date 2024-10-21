@@ -4,46 +4,33 @@
 {% block h2 %}Welcome to News Share{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/pagenation.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card.css' %}">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
 <input id="has_next" hidden value="{{has_next}}"></input>
-<div class="container mt-4">
+<div class="container mt-4 ">
     <!-- Inline Post Creation Form -->
-    <div class="card">
-        <div class="card-header">
-            <h1 class="card-title">SHARE YOUR NEWS!!</h1>
-        </div>
-        <div class="card-body ">
+    <div class="card shadow-lg bg-light border-0">
+        <div class="card-body p-4">
             <form id="postForm" method="post" action="{% url 'index' %}">
                 {% csrf_token %}
-                <div class="form-group">
-                    <textarea class="form-control" id="post-content" name="content" rows="3" placeholder="What's happening?"></textarea>
+                <div class="form-group mb-3">
+                    <textarea class="form-control" id="post-content" name="content" rows="4" 
+                    placeholder="What's happening ?" style="resize: none; border-radius: 10px; padding: 10px;"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Create Post</button>
+                <button type="submit" class="btn btn-lg btn-block btn-primary">Post</button>
             </form>
-        </div>
-        <div class="card-footer text-body-secondary">
-            <p></p>
         </div>
     </div>
     
-    <!-- Nav Bar -->
-    <ul class="nav nav-tabs mt-4">
-        <li class="nav-item">
-            <a id="all_posts_nav" class="nav-link {% if not request.GET.nav or request.GET.nav == 'posts' %}active{% endif %}" href="?nav=posts">All Posts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if request.GET.nav == 'verified' %}active{% endif %}" href="?nav=verified">Verified Posts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if request.GET.nav == 'disproven' %}active{% endif %}" href="?nav=disproven">Disproven Posts</a>
-        </li>
-    </ul>
-
+    
+    
+    <!-- Side Panel -->
+    {% include 'mainapp/post/_posts_side_panel.html' %}
+    
     <!-- Posts Section -->
     <div id="posts-container" class="mt-4">
         {% include 'mainapp/post/_posts_section.html' %}
@@ -81,14 +68,14 @@ $(document).ready(function(){
             if($('#has_next').val()=='false'){console.log("no more posts");return;}
             else{console.log("loading extra posts")}
             page++;
-            var url = '?page=' + page + '&nav=' + $('.nav-link.active').attr('href').split('=')[1];
+            var url = '?page=' + page + '&nav=' + $('.sub-bar.active').attr('href').split('=')[1];
             loadContent(url);
         }
     });
 
-    $('.nav-link').click(function(e){
+    $('.sub-bar').click(function(e){
             e.preventDefault();
-            $('.nav-link').removeClass('active');
+            $('.sub-bar').removeClass('active');
             $(this).addClass('active');
             $('#posts-container').empty(); 
             page = 1; // Reset page counter

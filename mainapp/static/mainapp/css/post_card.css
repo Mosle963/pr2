@@ -9,11 +9,11 @@
     text-overflow: ellipsis;
 }
 
-
+ 
 .post-body {
     transition: all 0.3s ease-in-out;
     padding: 40px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Pacifico', sans-serif;
     border-radius: 8px;
     font-size: 1.4em; /* Slightly larger font */
     line-height: 1.8; /* Increased line height for readability */

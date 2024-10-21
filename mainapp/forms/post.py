@@ -1,7 +1,7 @@
 from django import forms
 from ..models import Post
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit,HTML
 
 
 class PostBaseForm(forms.ModelForm):
@@ -28,8 +28,10 @@ class PostBaseForm(forms.ModelForm):
                 'post_text',
             ),
             ButtonHolder(
-                Submit('submit', 'Post', css_class='btn-primary')
-            )
+    Submit('submit', 'Save', css_class='btn-primary btn-lg'),
+    HTML('<a class="btn btn-secondary btn-lg" href="{% url \'index\' %}">Cancel</a>')
+)
+
         )
 
 

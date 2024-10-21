@@ -1,6 +1,4 @@
-
-
-function change_status(new_status,checker_id,post_id) {
+function change_status(new_status, checker_id, post_id) {
     var update_url = $("#update_url").val();
     var csrf_token = $("#csrf_token").val();
     fetch(update_url.replace("0", post_id), {
@@ -11,19 +9,24 @@ function change_status(new_status,checker_id,post_id) {
             'X-Requested-With': 'XMLHttpRequest',
             'X-CSRFToken': csrf_token
         }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-            
-            idd = "#post-statue-"+post_id;
-            
-            $(idd).load(location.href + " "+idd+"> *");
-        } else {
-                alert("Failed to alter status.");
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+
+            var statusHtml = 'Truth-O-meter: <strong class="text-dark">'+data.new_status+'</strong>';
+            if (data.checker_name) {
+                statusHtml += ' by <a id="checker-link" href="'+data.checker_url+'">'+data.checker_name+'</a>';
             }
-        });
+            idd = "poststatue"+post_id;
+            document.getElementById(idd).innerHTML = statusHtml;
+            //  $("#post-statue-" + post_id).html(statusHtml); // Directly update HTML content
+        } else {
+            alert("Failed to alter status.");
+        }
+    });
 }
+
     
 function deletePost(post_id) {
     var delete_url = $("#delete_url").val();
@@ -46,12 +49,12 @@ function deletePost(post_id) {
         });
 }
 
-function show_less_more(){
+function show_less_more() {
+    
+    console.log("called");
     $(".post-body").each(function() {
         var summary = $(this).find(".post-summary")[0];
         var seeMore = $(this).find(".see-more");
-
-        // Check if the content is clamped
         if (summary.scrollHeight > summary.clientHeight) {
             seeMore.show();
         } else {
@@ -60,6 +63,7 @@ function show_less_more(){
     });
 
     $(".see-more").click(function() {
+        console.log('Show more clicked');
         $(this).siblings(".post-summary").hide();
         $(this).siblings(".post-full").show();
         $(this).hide();
@@ -67,13 +71,13 @@ function show_less_more(){
     });
 
     $(".see-less").click(function() {
+        console.log('Show less clicked');
         $(this).siblings(".post-summary").show();
         $(this).siblings(".post-full").hide();
         $(this).hide();
         $(this).siblings(".see-more").show();
     });
-
-};
+}
 
 $(document).ready(function() {
     show_less_more();

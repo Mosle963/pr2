@@ -1,0 +1,47 @@
+<input hidden value="{{csrf_token}}" id="csrf_token"/>
+<input hidden value="{% url 'delete_post' 0 %}" id="delete_url"/>
+<input hidden value="{% url 'update_status' 0 %}" id="update_url"/>
+
+<div class="card mt-3 p-2" id="post-card-{{post.post_id}}">
+    <!--card header contaain the author and relative creation time-->
+    <div class="card-header d-flex justify-content-between p-2">
+        <span class="small card-author">shared by <a href="{{ post.account.get_absolute_url }}" >{{ post.account.first_name }} {{ post.account.last_name }}</a></span>
+        <span class="small text-muted">{{ post.get_relative_time }}</span>
+    </div>
+    
+    <!--card body contains the text and its show functions-->
+    <p class="card-text post-body p-2">
+        <span class="post-summary">{{ post.post_text|linebreaksbr }}</span>
+        <span class="post-full">{{ post.post_text|linebreaksbr }}</span>
+        <br><a href="javascript:void(0);" class="see-more text-info">Show more...</a>
+        <a href="javascript:void(0);" class="see-less text-info">Show less <i class="bi bi-chevron-up"></i></a>
+    </p>
+    <!--card footer show the buttons to 
+            (approve/diapprove/retrive revision) 
+            and (edit/delete) 
+        show the status of the post 
+    -->
+    <div class="card-footer d-flex justify-content-between align-items-center p-2 bg-light">
+        <div class="btn-group" role="group">
+            {% if user.is_trusted %}
+                {% if not post.checker or post.checker == user.account %}
+                    <button type="button" class="btn btn-outline-success btn-sm" onclick="change_status('approve','{{user.id}}','{{post.post_id}}')" title="Verify this post"><i class="bi bi-check-circle"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="change_status('reset','{{user.id}}','{{post.post_id}}')" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="change_status('disapprove','{{user.id}}','{{post.post_id}}')" title="Disapprove this post"><i class="bi bi-x-circle"></i></button>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div id="poststatue{{post.post_id}}" class="status text-muted small text-center mx-auto">
+            Truth-O-meter: <strong class="text-dark">{{ post.status }}</strong>
+            {% if post.checker %} 
+                <span> by <a id="checker-link" href="{{post.checker.get_absolute_url}}">{{ post.checker }}</a></span>
+            {% endif %}
+        </div>
+        <div class="btn-group" role="group">
+            {% if post.account.user == user or user.is_staff %}
+                <a href="{% url 'post_update' post.post_id 0 %}" class="btn btn-outline-primary btn-sm" title="Edit this post"><i class="bi bi-pencil"></i></a>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deletePost('{{ post.post_id|escapejs }}')" title="Delete this post"><i class="bi bi-trash"></i></button>
+            {% endif %}
+        </div>
+    </div>
+</div>
