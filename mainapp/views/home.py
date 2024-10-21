@@ -44,18 +44,18 @@ def index(request):
     paginator = Paginator(post_list, 10)  # Show 10 posts per page
     page_number = request.GET.get('page',1)
     page_obj = paginator.get_page(page_number)
+    if int(page_number) > paginator.num_pages or int(page_number) < 1:
+        page_obj.object_list = []
     
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         context = {'page_obj': page_obj}
         html_content = render_to_string('mainapp/post/_posts_section.html', context, request=request)
         return JsonResponse({
             'content': html_content,
-            'has_next': page_obj.has_next(),
         })
     
     context = {
         'page_obj': page_obj,
-        'has_next': page_obj.has_next(),
     }
     return render(request, 'mainapp/index.html', context)
 

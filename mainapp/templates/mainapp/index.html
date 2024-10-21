@@ -10,7 +10,6 @@
 {% endblock style %}
 
 {% block content %}
-<input id="has_next" hidden value="{{has_next}}"></input>
 <div class="container mt-4 ">
     <!-- Inline Post Creation Form -->
     <div class="card shadow-lg bg-light border-0">
@@ -66,7 +65,6 @@ $(document).ready(function(){
             success: function(data) {
                 $('#posts-container').append(data.content);
                 show_less_more();
-                $('#has_next').val(data.has_next)
                 loading = false ;               
             },
             error: function() {
@@ -77,8 +75,6 @@ $(document).ready(function(){
 
     $(window).scroll(function() {
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-            if($('#has_next').val()=='false'){console.log("no more posts");return;}
-            else{console.log("loading extra posts")}
             page++;
             var url = '?page=' + page + '&nav=' + $('.sub-bar.active').attr('href').split('=')[1];
             loadContent(url);
@@ -113,7 +109,7 @@ $(document).ready(function(){
     var submitButton = $(this).find('button[type="submit"]');
     var originalButtonText = submitButton.text();
     submitButton.text('Posting...').prop('disabled', true);
-
+ 
     $.ajax({
         type: 'POST',
         url: '{% url "create_post" %}',
