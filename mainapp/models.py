@@ -185,3 +185,10 @@ class Post(models.Model):
         if relative_time == "just now":
             ago =""
         return relative_time+ago
+
+class Following(models.Model):
+    follower = models.ForeignKey(Account, related_name='following', on_delete=models.CASCADE)
+    followee = models.ForeignKey(Account, related_name='followers', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('follower', 'followee')

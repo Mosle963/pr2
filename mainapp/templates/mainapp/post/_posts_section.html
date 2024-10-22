@@ -1,3 +1,7 @@
+<input hidden value="{{csrf_token}}" id="csrf_token"/>
+<input hidden value="{% url 'delete_post' 0 %}" id="delete_url"/>
+<input hidden value="{% url 'update_status' 0 %}" id="update_url"/>
+<input hidden value="{% url 'refresh_status' 0 %}" id="refresh_url"/>
 {% for post in page_obj %}
     {% include 'mainapp/post/_post_card2.html' with post=post %}
 {% endfor %}

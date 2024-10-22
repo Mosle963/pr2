@@ -25,4 +25,15 @@
         <i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
     </a>
     {% endif %}
+
+
+    {% if user.is_staff %}
+    <a href="{% url 'toggle_trust_status' account.user.id %}" class="position-absolute" style="top: 10px; right: 10px;">
+        {% if account.user.is_trusted %}
+            <i class="fas fa-thumbs-down text-danger" style="font-size: 1.5rem;" title="Untrust User"></i> <!-- Icon to untrust user -->
+        {% else %}
+            <i class="fas fa-thumbs-up text-success" style="font-size: 1.5rem;" title="Trust User"></i> <!-- Icon to trust user -->
+        {% endif %}
+    </a>
+    {% endif %}
 </div>

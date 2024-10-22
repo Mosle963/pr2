@@ -15,7 +15,7 @@ def check_true_prob(post_id, user_id):
     if account.last_api_call:
         time_since_last_call = now() - account.last_api_call
         if time_since_last_call.total_seconds() < 60:
-            variance = random.randint(10, 30)
+            variance = random.randint(1, 5)
             time.sleep(variance)
 
     response = requests.post('https://svuites23pr601.pythonanywhere.com/api/predict/',

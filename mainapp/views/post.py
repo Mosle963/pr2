@@ -1,24 +1,16 @@
-from django.views.generic import (
-    CreateView,
-    UpdateView,
-    DetailView,
-    ListView,
-    DeleteView,
-)
+from django.views.generic import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import reverse
+from django.shortcuts import reverse, get_object_or_404
 from django.urls import reverse_lazy
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from ..models import Post,Account
-from ..forms.post import PostUpdateForm, PostCreateForm
-import json
-from ..tasks import start_thread
-import requests
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from ..models import Post,Account
+from ..forms.post import PostUpdateForm, PostCreateForm
+from ..tasks import start_thread
+import requests
+import json
+import time
 @login_required
 def create_post(request):
     if request.method == 'POST':
@@ -97,3 +89,12 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return response
 
 
+
+def refresh_status(request, post_id):
+    try:
+        post = Post.objects.get(post_id=post_id)
+        start_thread(post.post_id, request.user.id)
+        time.sleep(3)
+        return HttpResponse(post.status)
+    except Post.DoesNotExist:
+        return HttpResponse('Status not found', status=404)

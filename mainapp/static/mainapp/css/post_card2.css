@@ -15,7 +15,7 @@ body {
 
 
 
-.btn-group .btn {
+.btn-group .btn,#refresh-status {
     font-size: 0.8rem;
     padding: 0.2rem 0.5rem;
 }
@@ -95,5 +95,4 @@ body {
     color: #333; /* Change color on hover */
     text-decoration: underline; /* Optional: add underline on hover */
 }
-
 

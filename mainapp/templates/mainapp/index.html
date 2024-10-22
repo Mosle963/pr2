@@ -8,11 +8,64 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 {% endblock style %}
+<style>
+.suggestions-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 95%; /* Make sure it fits within the card */
+    margin-top: 10px;
+}
 
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #f9f9f9;
+}
+
+#user-search-input {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+}
+
+</style>
 {% block content %}
 
 <input value="false" hidden id="loading"></input> 
 <input value="2" hidden id="page"></input> 
+<input hidden value="{% url 'autocomplete_users'%}" id="autocomplete_users"/>
+
+<div class="container mt-4 ">
+    <div class="card mt-3 p-2 shadow">
+        <div class="card-body p-0 position-relative">
+            <input type="text" id="user-search-input" 
+            class="form-control pr-5" 
+            placeholder="Type to search users..." 
+            oninput="searchUsers(this.value)">
+            <i class="fas fa-search text-primary position-absolute " style="right: 15px; top: 50%; transform: translateY(-50%);"></i>
+        </div>
+        <div id="suggestions-box" class="suggestions-box"></div>
+    </div>
+</div>
+
 <div class="container mt-4 ">
     <!-- Inline Post Creation Form -->
     <div class="card shadow-lg bg-light border-0">
@@ -64,7 +117,7 @@ function showFlashMessage(message, type) {
             alertDiv.fadeOut(function() {
                 $(this).remove();
             });
-        }, 2000);
+        }, 5000);
     }
     $(document).ready(function(){
     $('#postForm').submit(function(e) {
@@ -104,6 +157,40 @@ function showFlashMessage(message, type) {
     });
 
     })
+
+
+function searchUsers(query) {
+    if (query.length > 0) {
+        var url = $("#autocomplete_users").val();
+        fetch(url+"?query="+query)
+            .then(response => response.json())
+            .then(data => {
+                showSuggestions(data);
+            })
+            .catch(error => {
+                console.error('Error fetching user suggestions:', error);
+            });
+        } 
+    else {document.getElementById('suggestions-box').innerHTML = '';}
+}
+
+function showSuggestions(users) {
+    const suggestionsBox = document.getElementById('suggestions-box');
+    suggestionsBox.innerHTML = '';
+    users.forEach(user => {
+        const suggestionItem = document.createElement('div');
+        suggestionItem.classList.add('suggestion-item');
+        
+        // Make the suggestion a clickable link
+        const link = document.createElement('a');
+        link.href = user.profile_url;
+        link.textContent = user.username;
+        link.classList.add('d-block'); // Makes the entire item clickable
+        
+        suggestionItem.appendChild(link);
+        suggestionsBox.appendChild(suggestionItem);
+    });
+}
 
 
 

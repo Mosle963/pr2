@@ -1,12 +1,16 @@
-from ..forms.account import AccountSignUpForm, AccountUpdateForm
-from django.shortcuts import redirect, reverse,render
+from django.shortcuts import get_object_or_404, redirect, reverse,render
 from django.views.generic import CreateView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from ..models import CustomUser, Account,Post,Status
 from django.contrib.auth import login
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.contrib.auth.decorators import user_passes_test
+from ..models import CustomUser, Account,Post,Status
+from ..forms.account import AccountSignUpForm, AccountUpdateForm
+from django.db.models import Q
+
+
 
 def profile_view(request, pk):
     account = Account.objects.get(user_id=pk)
@@ -91,8 +95,24 @@ class AccountUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.get_object().user.id == self.request.user.id
 
 
-"""class AccountDetailView(DetailView):
-    model = Account
-    template_name = "mainapp/account/account_detail.html"
-    context_object_name = 'account'
-"""
+
+
+@user_passes_test(lambda u: u.is_staff)
+def toggle_trust_status(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    user.is_trusted = not user.is_trusted
+    user.save()
+    return redirect('account_detail', pk=user_id) 
+
+
+def autocomplete_users(request):
+    if 'query' in request.GET:
+        query = request.GET.get('query', '')
+        accounts = Account.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(user__email__icontains=query)
+        )[:10]
+        results = [{'username': f"{account.first_name} {account.last_name}", 'profile_url': account.get_absolute_url()} for account in accounts]
+        return JsonResponse(results, safe=False)
+    return JsonResponse([], safe=False)
