@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
-from ..models import Post,Status
+from ..models import Post,Status,Account
 from ..forms.home import CustomLoginForm
 from ..forms.post import PostCreateForm
 from django.template.loader import render_to_string
@@ -38,6 +38,15 @@ def index(request):
         post_list = Post.objects.filter(status=Status.V.value)
     elif nav == 'disproven':
         post_list = Post.objects.filter(status=Status.DP.value)
+    elif nav == 'following':
+        current_user_account = Account.objects.get(user=request.user)
+        query = """
+            SELECT p.*
+            FROM mainapp_post p
+            JOIN mainapp_following f ON p.account_id = f.followee_id
+            WHERE f.follower_id = %s
+        """
+        post_list = Post.objects.raw(query, [current_user_account.user_id])
     else:
         post_list = Post.objects.all()
     

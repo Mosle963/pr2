@@ -11,6 +11,7 @@ from ..tasks import start_thread
 import requests
 import json
 import time
+
 @login_required
 def create_post(request):
     if request.method == 'POST':

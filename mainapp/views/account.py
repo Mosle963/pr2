@@ -6,10 +6,10 @@ from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.auth.decorators import user_passes_test
-from ..models import CustomUser, Account,Post,Status
+from django.views.decorators.http import require_POST
+from ..models import CustomUser, Account, Post, Status, Following
 from ..forms.account import AccountSignUpForm, AccountUpdateForm
 from django.db.models import Q
-
 
 
 def profile_view(request, pk):
@@ -35,11 +35,15 @@ def profile_view(request, pk):
         return JsonResponse({
             'content': html_content,
         })
- 
+    
+    current_user_account = Account.objects.get(user=request.user)
+    existing_follow = Following.objects.filter(follower=current_user_account, 
+    followee=account)
 
     context = {
         'account': account,
         'page_obj': page_obj,
+        'is_following':existing_follow.exists(),
     }
     return render(request, 'mainapp/account/account_details.html', context)
 
@@ -116,3 +120,20 @@ def autocomplete_users(request):
         results = [{'username': f"{account.first_name} {account.last_name}", 'profile_url': account.get_absolute_url()} for account in accounts]
         return JsonResponse(results, safe=False)
     return JsonResponse([], safe=False)
+
+
+
+@require_POST
+def follow(request, followee_id):
+     
+    current_user_account = Account.objects.get(user=request.user)
+    followee_user = CustomUser.objects.get(id=followee_id)
+    followee_account = Account.objects.get(user = followee_user)
+    existing_follow = Following.objects.filter(follower=current_user_account, followee=followee_account)
+    
+    if existing_follow.exists():
+        existing_follow.delete()
+        return JsonResponse({'status': 'success', 'action': 'unfollow'})
+    else:
+        Following.objects.create(follower=current_user_account, followee=followee_account)
+        return JsonResponse({'status': 'success', 'action': 'follow'})

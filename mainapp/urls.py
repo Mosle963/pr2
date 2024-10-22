@@ -26,5 +26,7 @@ urlpatterns += [
     path('create-post/', post.create_post, name='create_post'),
     path('refresh-status/<int:post_id>/', post.refresh_status, name='refresh_status'),
     path('toggle-trust-status/<int:user_id>/', account.toggle_trust_status, name='toggle_trust_status'),
-    path('autocomplete-users/', account.autocomplete_users, name='autocomplete_users')
+    path('autocomplete-users/', account.autocomplete_users, name='autocomplete_users'),
+    path('follow/<int:followee_id>', account.follow, name='follow')
+
 ]
