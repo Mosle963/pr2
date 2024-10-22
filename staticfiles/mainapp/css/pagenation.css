@@ -1,0 +1,36 @@
+.pagination .page-item .page-link {
+    color: #007bff; /* Bootstrap primary color */
+}
+.pagination .page-item.disabled .page-link {
+    color: #6c757d; /* Bootstrap secondary color */
+}
+.pagination .page-item .page-link:hover {
+    background-color: #f8f9fa; /* Light background on hover */
+}
+.pagination .page-item .page-link span {
+    font-weight: bold; /* Bold arrows */
+}
+
+
+.sticky-pagination {
+    position: fixed;
+    top: 80%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+.sticky-pagination.left {
+    left: 10px;
+}
+.sticky-pagination.right {
+    right: 10px;
+}
+.sticky-pagination .page-link {
+    background-color: transparent;
+    color: #007bff; /* Bootstrap primary color */
+    font-size: 4rem; /* Make them bigger */
+    border: none; /* Remove border */
+}
+.sticky-pagination .page-link:hover {
+    background-color: #e9ecef; /* Light background on hover */
+    color: #0056b3; /* Darker blue on hover */
+}

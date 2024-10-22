@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-custom {
+    background-color: rgba(255, 255, 255, 0.5); /* White semi-transparent */
+    backdrop-filter: blur(10px); /* Glassy effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    padding: 0 0;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #000; /* Black for contrast */
+    font-size: 1.5rem; /* Increase font size */
+}
+
+.navbar-text.site-title ,#title{
+    font-family: 'Pacifico' , sans-serif; /* Cursive font */
+    font-size: 1.8rem; /* Adjust size */
+    color: #000;
+}

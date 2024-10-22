@@ -1,0 +1,29 @@
+.side-panel {
+    position: fixed;
+    top: 200px; /* Lower the panel */
+    left: -150px; /* Hide most of the panel off-screen */
+    width: 200px;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+    transition: left 0.3s; /* Smooth transition */
+}
+
+.side-panel:hover {
+    left: 0; /* Show the panel on hover */
+}
+
+.side-panel .nav-link {
+    color: #000;
+    margin: 5px 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between; /* Space out text and icons */
+    align-items: center;
+}
+
+.side-panel .nav-link:hover, .side-panel .nav-link.active {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue highlight */
+    border-radius: 4px;
+}
