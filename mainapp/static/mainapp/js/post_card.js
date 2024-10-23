@@ -13,14 +13,12 @@ function change_status(new_status, checker_id, post_id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-
-            var statusHtml = 'Truth-O-meter: <strong class="text-dark">'+data.new_status+'</strong>';
+            var statusHtml = 'Truth-O-meter: <strong class = "mystatus" style="color:'+data.color+';">'+data.new_status+'</strong>';
             if (data.checker_name) {
                 statusHtml += ' by <a id="checker-link" href="'+data.checker_url+'">'+data.checker_name+'</a>';
             }
             idd = "poststatue"+post_id;
             document.getElementById(idd).innerHTML = statusHtml;
-            //  $("#post-statue-" + post_id).html(statusHtml); // Directly update HTML content
         } else {
             alert("Failed to alter status.");
         }
@@ -101,16 +99,64 @@ function refreshStatus(post_id) {
             else{refreshIcon.classList.remove('fa-spin');            
                 refreshButton.removeAttribute('disabled');
             }
+            
+        set_colors();
         })
         .catch(error => {
             console.error('Error fetching status:', error);
             alert("Error fetching status.");
             refreshIcon.classList.remove('fa-spin');
             refreshButton.removeAttribute('disabled');
-
+            
+        set_colors();
         });
 }
 
+
+function get_color_on_status(statusText)
+{
+    var color;
+    switch (statusText) {
+        case "Processing":
+            color = "yellow";
+            break;
+        case "Verified":
+            color = "green";
+            break;
+        case "Disproven":
+            color = "red";
+            break;
+        case "Definitely False":
+            color = "darkred";
+            break;
+        case "Probably False":
+            color = "orange";
+            break;
+        case "Not Sure":
+            color = "blue";
+            break;
+        case "Probably True":
+            color = "lightgreen";
+            break;
+        case "Definitely True":
+            color = "darkgreen";
+            break;
+        default:
+            color = "gray"; // Default color if no status matches
+    }
+return color;
+}
+
+function set_colors()
+{
+    $('.mystatus').each(function() {
+        var statusText = $(this).text().trim();
+        color = get_color_on_status(statusText);
+        console.log(color);
+        $(this).css('color', color);
+    });
+}
 $(document).ready(function() {
     show_less_more();
+   set_colors();
 });

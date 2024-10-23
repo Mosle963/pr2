@@ -45,7 +45,7 @@
                     <i id="refreshicon{{post.post_id}}" class="fas fa-sync "></i>
                 </button>
             {% endif %}
-            Truth-O-meter: <strong id="refresh{{post.post_id}}" class="text-dark">{{ post.status }}</strong>
+            Truth-O-meter: <strong id="refresh{{post.post_id}}" class="mystatus">{{ post.status }}</strong>
             {% if post.checker %} 
                 <span> by <a id="checker-link" href="{{post.checker.get_absolute_url}}">{{ post.checker }}</a></span>
             {% endif %}

@@ -146,12 +146,14 @@ function showFlashMessage(message, type) {
             }
             // Reset button state
             submitButton.text(originalButtonText).prop('disabled', false);
+            show_less_more();
         },
         error: function(xhr, status, error) {
             console.error("Error creating post: ", error);
             showFlashMessage("UnknownError, please try again in a few moments", "danger");
             // Reset button state
             submitButton.text(originalButtonText).prop('disabled', false);
+            show_less_more();
         }
     });
     });

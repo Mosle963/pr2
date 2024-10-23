@@ -123,7 +123,7 @@ class Post(models.Model):
     
     class Meta:
         verbose_name = "Post"
-        ordering = ["-post_id"]
+        ordering = ["-updated_at"]
 
     def get_absolute_url(self):
         """Returns the URL to access a particular instance of Post."""
