@@ -14,7 +14,7 @@ urlpatterns += [
     ),
     path(
         "account/<int:pk>/details",
-        account.profile_view,
+        account.account_view,
         name="account_detail",
     ),
 ]

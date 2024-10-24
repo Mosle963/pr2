@@ -12,7 +12,7 @@ from ..forms.account import AccountSignUpForm, AccountUpdateForm
 from django.db.models import Q
 
 
-def profile_view(request, pk):
+def account_view(request, pk):
     account = Account.objects.get(user_id=pk)
     nav = request.GET.get('nav', 'posts')
     
@@ -117,7 +117,7 @@ def autocomplete_users(request):
             Q(last_name__icontains=query) |
             Q(user__email__icontains=query)
         )[:10]
-        results = [{'username': f"{account.first_name} {account.last_name}", 'profile_url': account.get_absolute_url()} for account in accounts]
+        results = [{'username': f"{account.first_name} {account.last_name}", 'account_url': account.get_absolute_url()} for account in accounts]
         return JsonResponse(results, safe=False)
     return JsonResponse([], safe=False)
 

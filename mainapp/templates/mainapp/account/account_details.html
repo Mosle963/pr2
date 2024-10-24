@@ -4,7 +4,7 @@
 {% block h2 %}Account Details{% endblock %}
 
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/profile_card.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/account_card.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card2.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
 <input value="2" hidden id="page"></input> 
 <div class="container mt-4">
     
-    <!--Profile Card-->
-    {% include 'mainapp/account/_profile_card.html' %}
+    <!--Account Card-->
+    {% include 'mainapp/account/_account_card.html' %}
     
     <!-- Side Panel -->
     <div class="side-panel">

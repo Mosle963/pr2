@@ -8,7 +8,7 @@ function showSuggestions(users) {
         
         // Make the suggestion a clickable link
         const link = document.createElement('a');
-        link.href = user.profile_url;
+        link.href = user.account_url;
         link.textContent = user.username;
         link.classList.add('d-block'); // Makes the entire item clickable
         

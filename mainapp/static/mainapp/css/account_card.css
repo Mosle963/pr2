@@ -1,19 +1,19 @@
-.profile-card {
+.account-card {
     background: linear-gradient(to right, #f8f9fa, #e9ecef);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
 }
-.profile-card .details {
+.account-card .details {
     border-right: 2px solid #6c757d;
 }
-.profile-card .details p {
+.account-card .details p {
     color: #5a5a5a; /* Darker font color */
 }
-.profile-card .bio {
+.account-card .bio {
     font-family: 'Georgia', serif; /* Cool font for bio */
     font-size: 1.1rem;
 }
-.profile-card .full-name {
+.account-card .full-name {
     font-size: 2rem; /* Bigger font for full name */
     margin-bottom: 1rem; /* Space below full name */
 }
