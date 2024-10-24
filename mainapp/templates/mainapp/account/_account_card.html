@@ -10,7 +10,7 @@
                     <i class="bi bi-check-circle text-success"></i> <!-- Trusted icon -->
                     {% endif %}
                     {% if user.is_authenticated and user.id != account.user.id %}                    
-                    <button id="followbtn" title ="follow" style="background:none; border: none;"
+                    <button id="followbtn" title ="{%if is_following %}un{%endif%}follow" style="background:none; border: none;"
                             onclick="follow('{{account.user.id}}')">
                         <i id ="star" class="bi bi-star{%if is_following %}-fill{%endif%}  "></i>
                     </button>
@@ -29,7 +29,7 @@
         </div>
     </div>
     {% if user.is_authenticated and user.id == account.user.id %}
-        <a href="{% url 'account_update' user.id 0%}" class="position-absolute" style="bottom: 10px; right: 10px;">
+        <a href="{% url 'account_update' user.id%}" class="position-absolute" style="bottom: 10px; right: 10px;">
             <i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>
         </a>
     {% endif %}

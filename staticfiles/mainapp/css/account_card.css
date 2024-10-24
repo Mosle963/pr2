@@ -1,0 +1,19 @@
+.account-card {
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+.account-card .details {
+    border-right: 2px solid #6c757d;
+}
+.account-card .details p {
+    color: #5a5a5a; /* Darker font color */
+}
+.account-card .bio {
+    font-family: 'Georgia', serif; /* Cool font for bio */
+    font-size: 1.1rem;
+}
+.account-card .full-name {
+    font-size: 2rem; /* Bigger font for full name */
+    margin-bottom: 1rem; /* Space below full name */
+}

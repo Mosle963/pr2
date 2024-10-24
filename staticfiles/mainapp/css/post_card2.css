@@ -15,7 +15,7 @@ body {
 
 
 
-.btn-group .btn {
+.btn-group .btn,#refresh-status {
     font-size: 0.8rem;
     padding: 0.2rem 0.5rem;
 }
@@ -96,4 +96,38 @@ body {
     text-decoration: underline; /* Optional: add underline on hover */
 }
 
+strong[data-status="Processing"] {
+    color: yellow;
+}
 
+strong[data-status="Verified"] {
+    color: green;
+}
+
+strong[data-status="Disproven"] {
+    color: red;
+}
+
+strong[data-status="Definitely False"] {
+    color: darkred;
+}
+
+strong[data-status="Probably False"] {
+    color: orange;
+}
+
+strong[data-status="Not Sure"] {
+    color: blue;
+}
+
+strong[data-status="Probably True"] {
+    color: lightgreen;
+}
+
+strong[data-status="Definitely True"] {
+    color: darkgreen;
+}
+
+strong[data-status="default"] {
+    color: gray;
+}

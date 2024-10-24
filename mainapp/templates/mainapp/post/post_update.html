@@ -1,3 +1,9 @@
-{% extends "mainapp/bases/update_form_base.html" %}
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5 shadow-lg bg-light p-5">
+    <h3 class="mb-3">{%block h2%}Edit Post{%endblock%}</h3>
+    {% crispy form %}
+</div>
+{% endblock %}
 
-{% block h2 %}Post Editing{% endblock %}

@@ -55,7 +55,7 @@
         </div>
         <div class="btn-group" role="group">
             {% if post.account.user == user or user.is_staff %}
-                <a href="{% url 'post_update' post.post_id 0 %}" class="btn btn-outline-primary btn-sm" title="Edit this post"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'post_update' post.post_id%}" class="btn btn-outline-primary btn-sm" title="Edit this post"><i class="bi bi-pencil"></i></a>
                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="deletePost('{{ post.post_id|escapejs }}')" title="Delete this post"><i class="bi bi-trash"></i></button>
             {% else %}
                 <a disabled href="" class="btn btn-outline-primary btn-sm invisible" title="Edit this post"><i class="bi bi-pencil"></i></a>
