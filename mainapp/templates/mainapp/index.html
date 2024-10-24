@@ -8,45 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 {% endblock style %}
-<style>
-.suggestions-box {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: #fff;
-    position: absolute;
-    z-index: 1000;
-    width: 95%; /* Make sure it fits within the card */
-    margin-top: 10px;
-}
 
-.suggestion-item {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.suggestion-item:last-child {
-    border-bottom: none;
-}
-
-.suggestion-item:hover {
-    background-color: #f9f9f9;
-}
-
-#user-search-input {
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    color: #333;
-    box-sizing: border-box;
-}
-
-</style>
 {% block content %}
 
 <input value="false" hidden id="loading"></input> 
@@ -60,9 +22,11 @@
             class="form-control pr-5" 
             placeholder="Type to search users..." 
             oninput="searchUsers(this.value)">
-            <i class="fas fa-search text-primary position-absolute " style="right: 15px; top: 50%; transform: translateY(-50%);"></i>
+            <i class="fas fa-search text-primary position-absolute " 
+            style="right: 15px; top: 50%; transform: translateY(-50%);">
+            </i>
+            <div id="suggestions-box" class=" suggestions-box"></div>
         </div>
-        <div id="suggestions-box" class="suggestions-box"></div>
     </div>
 </div>
 
@@ -71,7 +35,8 @@
     <div class="card shadow-lg bg-light border-0">
         <div class="card-body p-4">
             {% if user.is_authenticated %}
-            <form id="postForm" method="post" action="{% url 'index' %} ">
+            <form id="postForm" method="post" action="{% url 'create_post' %} " 
+                onsubmit="create_post(this,event)">
                 {% csrf_token %}
                 <div class="form-group mb-3">
                     <textarea class="form-control" id="post-content" name="post_text" rows="4" maxlength="1000"
@@ -106,95 +71,9 @@
 
 {% endblock %}
 {% block script %}
-<script src="{% static 'mainapp/js/post_card.js' %}"></script>
-<script src="{% static 'mainapp/js/load_on_scroll.js' %}"></script>
-<script>
-
-function showFlashMessage(message, type) {
-        var alertDiv = $('<div class="alert alert-' + type + '" role="alert">' + message + '</div>');
-        $('#postForm').prepend(alertDiv);
-        setTimeout(function() {
-            alertDiv.fadeOut(function() {
-                $(this).remove();
-            });
-        }, 5000);
-    }
-    $(document).ready(function(){
-    $('#postForm').submit(function(e) {
-    e.preventDefault();  // Prevent the default form submission
-
-    // Display loading state
-    var submitButton = $(this).find('button[type="submit"]');
-    var originalButtonText = submitButton.text();
-    submitButton.text('Posting...').prop('disabled', true);
- 
-    $.ajax({
-        type: 'POST',
-        url: '{% url "create_post" %}',
-        data: $(this).serialize(),
-        success: function(response) {
-            console.log("Full response: ", response); 
-            if (response.success) {
-                // Handle success response (e.g., refresh posts list, show success message)
-                $('#all_posts_nav').click();
-                showFlashMessage("Post created successfully!", "success");
-                $('#postForm')[0].reset();  // Reset the form after successful submission
-            } else {
-                // Inspect the error object and handle errors
-                var errorMsg = response.errors?.post_text?.[0]?.message ?? "Unknown error occurred"; // Optional chaining to safely access the nested properties
-                showFlashMessage(errorMsg, "danger");
-            }
-            // Reset button state
-            submitButton.text(originalButtonText).prop('disabled', false);
-            show_less_more();
-        },
-        error: function(xhr, status, error) {
-            console.error("Error creating post: ", error);
-            showFlashMessage("UnknownError, please try again in a few moments", "danger");
-            // Reset button state
-            submitButton.text(originalButtonText).prop('disabled', false);
-            show_less_more();
-        }
-    });
-    });
-
-    })
-
-
-function searchUsers(query) {
-    if (query.length > 0) {
-        var url = $("#autocomplete_users").val();
-        fetch(url+"?query="+query)
-            .then(response => response.json())
-            .then(data => {
-                showSuggestions(data);
-            })
-            .catch(error => {
-                console.error('Error fetching user suggestions:', error);
-            });
-        } 
-    else {document.getElementById('suggestions-box').innerHTML = '';}
-}
-
-function showSuggestions(users) {
-    const suggestionsBox = document.getElementById('suggestions-box');
-    suggestionsBox.innerHTML = '';
-    users.forEach(user => {
-        const suggestionItem = document.createElement('div');
-        suggestionItem.classList.add('suggestion-item');
-        
-        // Make the suggestion a clickable link
-        const link = document.createElement('a');
-        link.href = user.profile_url;
-        link.textContent = user.username;
-        link.classList.add('d-block'); // Makes the entire item clickable
-        
-        suggestionItem.appendChild(link);
-        suggestionsBox.appendChild(suggestionItem);
-    });
-}
-
-
-
-</script>
+    <script src="{% static 'mainapp/js/creating_post.js' %}"></script>
+    <script src="{% static 'mainapp/js/search_users.js' %}"></script>
+    <script src="{% static 'mainapp/js/change_status.js' %}"></script>
+    <script src="{% static 'mainapp/js/delete_post.js' %}"></script>
+    <script src="{% static 'mainapp/js/refresh_status.js' %}"></script>
 {% endblock %}

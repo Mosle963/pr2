@@ -95,7 +95,7 @@ def refresh_status(request, post_id):
     try:
         post = Post.objects.get(post_id=post_id)
         start_thread(post.post_id, request.user.id)
-        time.sleep(3)
+        time.sleep(5)
         return HttpResponse(post.status)
     except Post.DoesNotExist:
         return HttpResponse('Status not found', status=404)

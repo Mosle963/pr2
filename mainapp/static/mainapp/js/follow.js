@@ -1,4 +1,6 @@
-function follow(followee_id,is_following) 
+
+//function to handle the follow
+function follow(followee_id) 
 {
     var follow_url = $("#follow_url").val();
     var csrf_token = $("#csrf_token").val();

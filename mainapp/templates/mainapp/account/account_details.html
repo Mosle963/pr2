@@ -4,10 +4,10 @@
 {% block h2 %}Account Details{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/profile_card.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card2.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/profile_card.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/post_card2.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/side_panel.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
@@ -51,7 +51,9 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'mainapp/js/post_card.js' %}"></script>
-<script src="{% static 'mainapp/js/load_on_scroll.js' %}"></script>
-<script src="{% static 'mainapp/js/profile_card.js' %}"></script>
+    <script src="{% static 'mainapp/js/creating_post.js' %}"></script>
+    <script src="{% static 'mainapp/js/change_status.js' %}"></script>
+    <script src="{% static 'mainapp/js/delete_post.js' %}"></script>
+    <script src="{% static 'mainapp/js/refresh_status.js' %}"></script>
+    <script src="{% static 'mainapp/js/follow.js' %}"></script>
 {% endblock %}
