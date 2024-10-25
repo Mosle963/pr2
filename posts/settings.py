@@ -81,13 +81,43 @@ WSGI_APPLICATION = 'posts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+#settings to use sqlite for faster testing with less configuration
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
+#settings to use local mysql database
+'''
+DATABASES = {  
+    'default': {  
+        'ENGINE': 'django.db.backends.mysql',  
+        'NAME': 'posts',  
+        'USER': 'root',  
+        'PASSWORD': 'admin',  
+        'HOST': '127.0.0.1',  
+        'PORT': '3306',  
+        'OPTIONS': {  
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
+        }  
+    }  
+}  
+'''
+#database settings for production
+''''''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SVUPBR602$default',
+        'USER': 'SVUPBR602',
+        'PASSWORD': '8JXyXp]6V!q^R?v',
+        'HOST': 'SVUPBR602.mysql.pythonanywhere-services.com',
+    }
+}
+''''''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
