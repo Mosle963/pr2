@@ -1,0 +1,77 @@
+.custom-card{
+    border-radius: 2rem; /* More rounded corners */
+    font-size: 1.35rem; /* Larger font size for text */
+    color: rgb(59, 53, 53);
+    /*border-width: 0.7rem;
+    border-style:inset;
+    border-color:azure;*/
+    border :  inset 0.7rem;
+}
+
+.bg-color-1 {
+    background-color: #FDF7F7;
+
+}
+.bg-color-2 {
+    background-color: #FDF7F7;
+}
+
+.bg-color-3 {
+    background-color: #FDF7F7;
+}
+
+.bg-color-4 {
+    background-color: #FDF7F7;
+}
+
+.bg-color-5 {
+    background-color: #FDF7F7;
+}
+
+.slide-title{
+    font-family: 'Arima' , sans-serif; 
+    font-size: 2.2rem;
+    color: #000;
+}
+p{
+    font-family: 'Montserrat', sans-serif;
+
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(248, 175, 175, 0.5); 
+   border-radius: 1rem;
+    width: 2.0rem; 
+    height: 2.0rem;
+}
+
+
+
+.carousel-indicators{
+background-color: rgba(248, 175, 175, 0.5);
+border-radius: 1rem;
+}
+
+.post-structure {
+    text-align: center;
+}
+
+.post-structure h2 {
+    font-family: 'Arima', sans-serif; /* Or the alternative font you choose */
+    font-size: 2.5rem;
+    color: #000;
+}
+
+.post-structure p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    color: rgb(59, 53, 53);
+}
+
+.post-structure img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 1.5rem;
+    border-style: inset;
+}

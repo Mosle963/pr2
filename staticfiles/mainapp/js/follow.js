@@ -15,6 +15,10 @@ function follow(followee_id)
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
+            
+            const followersElement = document.getElementById('followers_number');
+            const followersText = followersElement.textContent;          
+            const followersNumber = parseInt(followersText.match(/\d+/)[0], 10);
             const followIcon = document.getElementById('star');
             followIcon.classList.toggle('bi-star');
             followIcon.classList.toggle('bi-star-fill');
@@ -23,11 +27,17 @@ function follow(followee_id)
             if(title=='follow')
                 {
                     followbtn.setAttribute('title','unfollow');
+                    const updatedFollowersNumber = followersNumber + 1;
+                    followersElement.textContent = `Number of Followers : ${updatedFollowersNumber}`;
+
                 }
             else{
                 followbtn.setAttribute('title','follow')
+                const updatedFollowersNumber = followersNumber - 1;
+                followersElement.textContent = `Number of Followers : ${updatedFollowersNumber}`;
+
             }
-        }
+                    }
     });
 }
 

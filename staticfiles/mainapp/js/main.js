@@ -73,3 +73,8 @@ $(document).ready(function(){
             loadContent(url);
         });
     });
+
+document.addEventListener('DOMContentLoaded', function() {
+        show_less_more();
+    });
+    
