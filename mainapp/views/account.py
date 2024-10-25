@@ -36,14 +36,16 @@ def account_view(request, pk):
             'content': html_content,
         })
     
-    current_user_account = Account.objects.get(user=request.user)
-    existing_follow = Following.objects.filter(follower=current_user_account, 
-    followee=account)
+    if request.user.is_authenticated:
+        current_user_account = Account.objects.get(user=request.user)
+        existing_follow = Following.objects.filter(follower=current_user_account, followee=account).exists()
+    else:
+        existing_follow = False
 
     context = {
         'account': account,
         'page_obj': page_obj,
-        'is_following':existing_follow.exists(),
+        'is_following':existing_follow,
     }
     return render(request, 'mainapp/account/account_details.html', context)
 

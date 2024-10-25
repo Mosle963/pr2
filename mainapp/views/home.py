@@ -68,6 +68,10 @@ def index(request):
     }
     return render(request, 'mainapp/index.html', context)
 
+def info_view(request):
+    return render(request, 'mainapp/info.html')
+
+
 def custom_403_view(request, exception=None):
     return render(request, '403.html', status=403)
 

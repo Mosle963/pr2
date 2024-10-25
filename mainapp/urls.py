@@ -4,6 +4,7 @@ from .views import home, account, post
 
 urlpatterns = [
     path("", home.index, name="index"),
+    path('info/', home.info_view, name='info'),
 ]
 
 urlpatterns += [

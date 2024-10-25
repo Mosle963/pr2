@@ -1,9 +1,10 @@
 
-<div class="card mt-3 p-2 shadow" id="post-card-{{post.post_id}}">
+<div class="card mt-1 p-2 shadow" id="post-card-{{post.post_id}}">
     <!--card header contaain the author and relative creation time-->
-    <div class="card-header d-flex justify-content-between p-2">
-        <span class="small card-author">shared by <a href="{{ post.account.get_absolute_url }}" >{{ post.account.first_name }} {{ post.account.last_name }}</a></span>
-        <span class="small text-muted">{{ post.get_relative_time }}</span>
+    <div class="card-header d-flex justify-content-between p-1">
+        
+    <span class="small card-author">shared by <a href="{{ post.account.get_absolute_url }}" >{{ post.account.first_name }} {{ post.account.last_name }}</a></span>
+    <span class="small text-muted">{{ post.get_relative_time }}</span>
     </div>
     
     <!--card body contains the text and its show functions-->
@@ -18,7 +19,7 @@
             and (edit/delete) 
         show the status of the post 
     -->
-    <div class="card-footer d-flex justify-content-between align-items-center p-2 bg-light">
+    <div class="card-footer d-flex justify-content-between align-items-center p-1 bg-light">
         <div class="btn-group" role="group">
             {% if user.is_trusted %}
                 {% if not post.checker or post.checker == user.account %}

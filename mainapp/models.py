@@ -94,6 +94,10 @@ class Account(models.Model):
                 info = ("Age", self.get_age())
                 fields.append(info)
         return fields
+    
+  
+    def get_num_followers(self):
+        return self.followers.count()
 
 from enum import Enum
 

@@ -20,6 +20,7 @@
                 <p><em>City: {{ account.city }}</em></p>
                 <p><em>Email: {{ account.user.email }}</em></p>
                 <p><em>Date of Birth: {{ account.date_of_birth }}</em></p>
+                <p><em id="followers_number">Number of Followers : {{account.get_num_followers}}</em></p>
             </div>
         </div>
         <div class="col-md-8">
