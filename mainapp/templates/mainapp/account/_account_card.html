@@ -26,9 +26,8 @@
         <div class="col-md-8">
             <div class="card-body bio">
                 {% autoescape off %}
-                    <pre>{{ your_text|linebreaksbr }}</pre>
+                    <p><pre>{{ account.bio|linebreaksbr }}</pre></p>
                 {% endautoescape %}
-
             </div>
         </div>
     </div>
