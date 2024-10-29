@@ -15,7 +15,7 @@ def check_true_prob(post_id, user_id):
     if account.last_api_call:
         time_since_last_call = now() - account.last_api_call
         if time_since_last_call.total_seconds() < 60:
-            variance = random.randint(1, 5)
+            variance = random.randint(10, 15)
             time.sleep(variance)
 
     response = requests.post('https://svuites23pr601.pythonanywhere.com/api/predict/',
@@ -24,6 +24,7 @@ def check_true_prob(post_id, user_id):
     account.last_api_call = now()
     account.save(update_fields=['last_api_call'])
     if response.status_code == 200:
+        post = Post.objects.get(pk=post_id)
         data = response.json()
         post.true_prob = data['true_prob']
         post.save(update_fields=['true_prob'])

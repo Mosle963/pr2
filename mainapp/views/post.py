@@ -86,6 +86,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        self.object.on_text_update()
         start_thread(self.object.post_id, self.request.user.id)
         return response
 

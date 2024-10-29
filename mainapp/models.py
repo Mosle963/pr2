@@ -149,7 +149,7 @@ class Post(models.Model):
         self.checker = user.account
         self.status = Status.V.value
         self.save()
-
+       
     def disapprove(self,checker_id):
         user = get_object_or_404(CustomUser, id=checker_id)
         self.checker = user.account
@@ -161,7 +161,16 @@ class Post(models.Model):
         self.save()
         self.set_status()
     
+    def on_text_update(self):
+        self.checker = None
+        self.status = Status.P.value
+        self.save()
+        
     def set_status(self):
+        
+        if self.status == Status.V.value or self.status == Status.DP.value:
+            return
+        
         P = self.true_prob
         P = P * 100
         P = int(P)
