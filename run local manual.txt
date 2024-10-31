@@ -1,0 +1,11 @@
+
+//only applied for the first time
+pip install virtualenvwrapper-win 
+mkvirtualenv ITE_BPR602_C32_F23 
+pip install -r requirements.txt 
+py manage.py runserver
+
+
+//only run these after the first time
+workon ITE_BPR602_C32_F23 
+py manage.py runserver

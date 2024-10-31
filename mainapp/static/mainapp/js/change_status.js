@@ -22,7 +22,6 @@ function change_status(new_status, checker_id, post_id) {
             statusHtml+='data-status="'+data.new_status+'"';
             statusHtml+='>'+data.new_status+'</strong>';
             
-            console.log(statusHtml);
             
             if (data.checker_name) {
                 statusHtml += ' by <a id="checker-link" href="'+data.checker_url+'">'+data.checker_name+'</a>';
