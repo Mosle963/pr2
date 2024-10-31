@@ -159,17 +159,18 @@ class Post(models.Model):
     def reset(self):
         self.checker = None
         self.save()
-        self.set_status()
+        self.set_status(force=1)
     
     def on_text_update(self):
         self.checker = None
         self.status = Status.P.value
         self.save()
         
-    def set_status(self):
+    def set_status(self,force=0):
         
-        if self.status == Status.V.value or self.status == Status.DP.value:
-            return
+        if force==0:
+            if self.status == Status.V.value or self.status == Status.DP.value:
+                return
         
         P = self.true_prob
         P = P * 100
