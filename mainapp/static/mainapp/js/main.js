@@ -4,7 +4,7 @@ function show_less_more() {
     $(".post-body").each(function() {
         var summary = $(this).find(".post-summary")[0];
         var seeMore = $(this).find(".see-more");
-        if (summary.scrollHeight > summary.clientHeight) {
+        if (summary.scrollHeight > $(this).clientHeight) {
             seeMore.show();
         } else {
             seeMore.hide();
@@ -12,7 +12,6 @@ function show_less_more() {
     });
 
     $(".see-more").click(function() {
-        console.log('Show more clicked');
         $(this).siblings(".post-summary").hide();
         $(this).siblings(".post-full").show();
         $(this).hide();
@@ -20,7 +19,6 @@ function show_less_more() {
     });
 
     $(".see-less").click(function() {
-        console.log('Show less clicked');
         $(this).siblings(".post-summary").show();
         $(this).siblings(".post-full").hide();
         $(this).hide();
@@ -32,7 +30,7 @@ function show_less_more() {
 $(document).ready(function(){
     show_less_more();
     function loadContent(url) {
-        if ($("#loading").val()=="true"){ console.log("returned"); return;}
+        if ($("#loading").val()=="true"){ return;}
         $("#loading").val("true");
 
         $.ajax({
